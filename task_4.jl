@@ -1,18 +1,17 @@
 function great_painter(r::Robot)
-    ist=false
     side=Ost
     num_ver=moves!(r,Sud)
     num_hor=moves!(r,Ost)
     putmarker!(r)
     count=first_row(r)
     num_hor+=count
-    if isborder(r,Nord)==true
-        ist=true
-    else
-        move!(r,Nord)
-        num_ver+=1
-    end
-    while ist==false
+    while (count>0)==true
+        if isborder(r,Nord)==true
+            count=1
+        else
+            move!(r,Nord)
+            num_ver+=1
+        end
         putmarker!(r)
         count-=1
         for _ in 1:count
@@ -28,35 +27,10 @@ function great_painter(r::Robot)
             move!(r,West)
             num_hor+=1
         end
-        if count==0
-            ist=true
-        end
-        if side==Ost
-            side=West
-        else
-            side=Ost
-        end
-        if isborder(r,Nord)==true
-            ist=true
-        else
-            move!(r,Nord)
-            num_ver+=1
-        end
+        side=inverse(side)
     end
-    if (num_ver<0)==true
-        side=Nord
-        num_ver*=-1
-    else
-        side=Sud
-    end
-    move_back(r,side,num_ver)
-    if (num_hor<0)==true
-        side=West
-        num_hor*=-1
-    else 
-        side=Ost
-    end
-    move_back(r,side,num_hor)
+    move_back(r,Sud,num_ver)
+    move_back(r,Ost,num_hor)
 end
 
 function moves!(r::Robot,side::HorizonSide)
@@ -79,7 +53,13 @@ function first_row(r::Robot)
 end
 
 function move_back(r::Robot,side::HorizonSide,num_steps::Int)
+    if (num_steps<0)==true
+        side=inverse(side)
+        num_steps*=-1
+    end
     for _ in 1:num_steps
         move!(r,side)
     end
 end
+
+inverse(side::HorizonSide)=HorizonSide(mod(Int(side)+2,4))

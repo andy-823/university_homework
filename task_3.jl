@@ -9,11 +9,7 @@ function great_painter(r::Robot)
         plus*=-1
         putmarker!(r)
         num_hor+=moves!(r,side,plus)
-        if side==Ost
-            side=West
-        else
-            side=Ost
-        end
+        side=inverse(side)
         if isborder(r,Nord)==true
             wall=true
         else
@@ -43,3 +39,5 @@ function move_back(r::Robot,side::HorizonSide,num_steps::Int)
         move!(r,side)
     end
 end
+
+inverse(side::HorizonSide)=HorizonSide(mod(Int(side)+2,4))
