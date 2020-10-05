@@ -1,6 +1,5 @@
 function great_painter(r::Robot)
     num=1
-    side=Nord
     act=[]
     while ((isborder(r,Sud))&&(isborder(r,West)))==false
         if isborder(r,Sud)==false
@@ -12,6 +11,7 @@ function great_painter(r::Robot)
         end
         num+=1
     end
+    side=Nord
     for _ in 1:4
         while isborder(r,side)==false
             move!(r,side)
