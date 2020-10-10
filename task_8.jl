@@ -1,10 +1,10 @@
 function great_painter(r::Robot)
-    k=1
+    num_steps=1
     side=Ost
     while isborder(r,Nord)==true
         check_space(r,side,k)
         side=inverse(side)
-        k+=1
+        num_steps+=1
     end
 end
 

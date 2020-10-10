@@ -1,12 +1,12 @@
 function great_painter(r::Robot)
-    k=1
+    num_steps=1
     side=Nord
     while ismarker(r)==false
         for _ in 1:2
-            check_mark(r,side,k)
+            check_mark(r,side,num_steps)
             side=next(side)
         end
-        k+=1
+        num_steps+=1
     end
 end
 

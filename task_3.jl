@@ -1,34 +1,35 @@
 function great_painter(r::Robot)
-    num_ver=moves!(r,Sud,plus)
-    num_hor=moves!(r,West,plus)
+    num_ver=moves!(r,Sud)
+    num_hor=moves!(r,West)
     putmarker!(r)
-    wall=false
-    plus=-1
     side=Ost
-    while wall==false
-        plus*=-1
-        putmarker!(r)
-        num_hor+=moves_m!(r,side,plus)
+    while isborder(r,Nord)==false
+        paint_row(r,side)
         side=inverse(side)
-        if isborder(r,Nord)==true
-            wall=true
-        else
-            move!(r,Nord)
-            num_ver+=1
-        end
+        move!(r,Nord)
+        putmarker!(r)
     end
-    move_back(r,Sud,num_ver)
+    paint_row(r,side)
+    moves!(r,West)
+    moves!(r,Sud)    
+    move_back(r,Nord,num_ver)
     move_back(r,Ost,num_hor)
 end
 
-function moves_m!(r::Robot,side::HorizonSide,plus::Int)
+function moves!(r::Robot,side::HorizonSide)
     num_steps=0
     while isborder(r,side)==false
         move!(r,side)
-        putmarker!(r)
-    num_steps+=plus
+        num_steps+=1
     end
     return num_steps
+end
+
+function paint_row(r::Robot, side::HorizonSide)
+    while isborder(r,side)==false
+        move!(r,side)
+        putmarker!(r)
+    end
 end
 
 function move_back(r::Robot,side::HorizonSide,num_steps::Int)

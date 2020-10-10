@@ -2,49 +2,55 @@ function great_painter(r::Robot)
     side=Ost
     num_hor=moves!(r,West)
     num_ver=moves!(r,Sud)
-    mark=1-2*mod(num_ver+num_hor,2)
-    while (mark>10)==false
-        if (mark>-1)==true
-            putmarker!(r)
-        end
+    change=1
+    while isborder(r,Nord)==false
+        mark_or_no(r,abs(num_ver),abs(num_hor),1)
         while isborder(r,side)==false
             move!(r,side)
-            mark*=-1
-            if (mark>-1)==true
-                putmarker!(r)
-            end
+            num_hor-=change
+            mark_or_no(r,abs(num_ver),abs(num_hor),1)
         end
+        move!(r,Nord)
         side=inverse(side)
-        if isborder(r,Nord)==true
-            mark=11
-        else
-            move!(r,Nord)
-            mark*=-1
-        end
+        num_ver-=1
+        change*=-1
     end
-    moves!(r,Sud)
-    moves!(r,West)
+    mark_or_no(r,abs(num_ver),abs(num_hor),1)
+    while isborder(r,side)==false
+        move!(r,side)
+        num_hor-=change
+        mark_or_no(r,abs(num_ver),abs(num_hor),1)
+    end
     move_back(r,Nord,num_ver)
     move_back(r,Ost,num_hor)
 end
 
-    function moves!(r::Robot,side::HorizonSide)
-        num_steps=0
-        while isborder(r,side)==false
-            move!(r,side)
-            num_steps+=1
-        end
-        return num_steps
+function moves!(r::Robot,side::HorizonSide)
+    num_steps=0
+    while isborder(r,side)==false
+        move!(r,side)
+        num_steps+=1
     end
+    return num_steps
+end
 
-    function move_back(r::Robot,side::HorizonSide,num_steps::Int)
-        if (num_steps<0)==true
-            side=inverse(side)
-            num_steps*=-1
-        end
-        for _ in 1:num_steps
-            move!(r,side)
-        end
+function mark_or_no(r::Robot, x_coord::Int, y_coord::Int, size::Int)
+    if ((mod(x_coord,2*size) in 0:size-1)&&(mod(y_coord,2*size) in 0:size-1))
+        putmarker!(r)
     end
+    if ((mod(x_coord,2*size) in size:2*size-1)&&(mod(y_coord,2*size) in size:2*size-1))
+        putmarker!(r)
+    end
+end
+    
+function move_back(r::Robot,side::HorizonSide,num_steps::Int)
+    if (num_steps<0)==true
+        side=inverse(side)
+        num_steps*=-1
+    end
+    for _ in 1:num_steps
+        move!(r,side)
+    end
+end
     
 inverse(side::HorizonSide)=HorizonSide(mod(Int(side)+2,4))
