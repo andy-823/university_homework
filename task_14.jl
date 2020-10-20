@@ -6,9 +6,8 @@ function great_painter(r::Robot)
             change=move_spec(r,side)
             putmarker!(r)
         end
-        side=inverse(side)
         while ismarker(r)
-            move_spec(r,side)
+            move_spec(r,inverse(side))
         end
         side=inverse(next(side))
     end
