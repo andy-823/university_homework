@@ -10,7 +10,6 @@ function great_painter(r::Robot)
         side=inverse(side)
     end
     overal_temp+=row_temp(r,side)
-    println(COUNT)
     average_temp=overal_temp/COUNT
     return average_temp
 end
