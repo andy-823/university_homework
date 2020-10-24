@@ -7,14 +7,14 @@ function great_painter(r::Robot)
             putmarker!(r)
         end
         while ismarker(r)
-            move_spec(r,inverse(side))
+            move_full_detour(r,inverse(side))
         end
         side=inverse(next(side))
     end
     putmarker!(r)
 end
 
-function move_spec(r::Robot, side::HorizonSide)
+function move_full_detour(r::Robot, side::HorizonSide)
     num_steps=0
     while isborder(r,side)&&!isborder(r,next(side))
         move!(r,next(side))
