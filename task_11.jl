@@ -24,7 +24,7 @@ function great_painter(r::Robot)
     end
     while (num>0)==true
         side=isodd(num) ? Ost : Nord
-        move_steps(r,side,num_steps)
+        move_steps(r,side,actions[num])
         num-=1
     end
 end
