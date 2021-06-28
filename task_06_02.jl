@@ -16,14 +16,12 @@ function particle_sort_2(x, value)
 
     len = length(x)
     for i in 1 : len
-        if (x[i] == value) 
-            x[i], x[last_equal + 1] = x[last_equal + 1], x[i]
-            last_equal += 1
-        end
         if (x[i] < value)
             x[i], x[last_lower + 1] = x[last_lower + 1], x[i]
             last_lower += 1
-            # x[i] now >= value, if x == value we know what to do, if x > value there are no equal to value yet 
+            if (last_lower - last_equal == 1) last_equal = last_lower end
+        end
+        if (x[i] == value) 
             x[i], x[last_equal + 1] = x[last_equal + 1], x[i]
             last_equal += 1
         end
