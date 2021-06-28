@@ -1,6 +1,4 @@
 function ext_euc(m, n)
-    u, v :: Int = 0, 0
-
     a, b = m, n
     u_a, v_a = 1, 0
     u_b, v_b = 0, 1
