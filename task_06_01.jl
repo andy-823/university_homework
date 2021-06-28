@@ -29,11 +29,6 @@ function merge(a, b)
     return c
 end
 
-function mergesort!(a)
-    if (length(a) == 1) return a end
-
-    a1 = mergesort!(a[begin : div(end, 2)])
-    a2 = mergesort!(a[div(end, 2)+1 : end])
-    
-    return merge(a1, a2)
+function merge!(A,B,C)
+    C = vcat(C, merge(A, B))
 end
