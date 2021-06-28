@@ -30,5 +30,5 @@ function merge(a, b)
 end
 
 function merge!(A,B,C)
-    C = vcat(C, merge(A, B))
+    C = merge(A, B)
 end
