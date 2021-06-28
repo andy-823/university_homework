@@ -1,4 +1,4 @@
-function strong(graph :: Vector{Vector{T}}) where T
+function weak(graph :: Vector{Vector{T}}) where T
     len = length(graph)
     used :: Vector{Bool} = []
     for _ in 1 : len push!(used, false) end
